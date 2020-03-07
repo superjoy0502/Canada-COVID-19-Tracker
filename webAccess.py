@@ -30,8 +30,8 @@ def load():
     driver = webdriver.Chrome(executable_path="/chromedriver", options=chrome_options)
     wait = WebDriverWait(driver, 10)
     driver.get("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6")
-    first_result = wait.until(presence_of_element_located((By.XPATH,
-                                                           '//*[@id="ember39"]/div[2]/nav')))
+    first_result = wait.until(presence_of_element_located((By.CSS_SELECTOR,
+                                                           '#ember41 > div.widget-body.flex-fluid.full-width.flex-vertical.overflow-y-auto.overflow-x-hidden > nav')))
     contents = first_result.get_attribute("textContent")
 
     contents = contents.split('\n')
