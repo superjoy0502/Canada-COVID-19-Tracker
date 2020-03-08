@@ -9,9 +9,10 @@ application.config["DEBUG"] = True
 def hello():
     return "Hello goorm!"
 
-@application.route('/', methods=['GET', 'POST'])
+@application.route('/', methods=['GET'])
 def getStats():
     return jsonify(webAccess.load())
+    
     
 if __name__ == "__main__":
     application.run(host='0.0.0.0', port=80)

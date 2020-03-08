@@ -27,7 +27,7 @@ chrome_options.binary_location = "/usr/bin/google-chrome"
 
 def load():
     cases = []
-    driver = webdriver.Chrome(executable_path="/chromedriver", options=chrome_options)
+    driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=chrome_options)
     wait = WebDriverWait(driver, 10)
     driver.get("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6")
     first_result = wait.until(presence_of_element_located((By.CSS_SELECTOR,
