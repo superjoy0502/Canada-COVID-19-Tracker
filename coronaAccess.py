@@ -50,7 +50,7 @@ def load():
         res = any("Canada" in contents[n] for ele in contents)
         if res:
             place = contents[n].strip().replace(u'\xa0', u' ')[:-7]
-            confirmedNumber = int(contents[n-1].strip()[:-10])
+            confirmedNumber = int(contents[n-1].strip()[:-10].replace(',', ''))
             t = {}
             deathn = deaths(place)
             curen = cured(place)
@@ -105,7 +105,7 @@ def deaths(place):
         res = any(place in contents[n] for ele in contents)
         print(place + " in " + str(n) + " " + str(contents[n].strip().replace(u'\xa0', u' ')) + " " + str(place in contents[n].strip().replace(u'\xa0', u' ')))
         if res:
-            deathNumber = int(contents[n-1].strip().replace(u'\xa0', u' ')[:-6])
+            deathNumber = int(contents[n-1].strip().replace(u'\xa0', u' ')[:-6].replace(',', ''))
     os.system('pkill "chrome"')
     return deathNumber
 
@@ -145,7 +145,7 @@ def cured(place):
         print(place + " in " + str(n) + " " + str(contents[n].strip().replace(u'\xa0', u' ')) + " " + str(place in contents[n].strip().replace(u'\xa0', u' ')))
         if place in contents[n].strip().replace(u'\xa0', u' '):
             cureNumber = 0
-            cureNumber = int(contents[n-1].strip().replace(u'\xa0', u' ')[:-10])
+            cureNumber = int(contents[n-1].strip().replace(u'\xa0', u' ')[:-10].replace(',', ''))
     os.system('pkill "chrome"')
     return cureNumber
     
