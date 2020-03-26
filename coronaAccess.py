@@ -24,6 +24,7 @@ chrome_options.add_argument("--headless")
 chrome_options.binary_location = "/usr/bin/google-chrome"
 
 
+
 def load():
     print("LOAD START")
     cases = []
@@ -31,10 +32,10 @@ def load():
     totalDeaths = 0
     totalCured = 0
     driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=chrome_options)
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 100)
     driver.get("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6")
-    confirmed_result = wait.until(presence_of_element_located((By.CSS_SELECTOR,
-                                                           '#ember41 > div.widget-body.flex-fluid.full-width.flex-vertical.overflow-y-auto.overflow-x-hidden > nav')))
+    confirmed_result = wait.until(presence_of_element_located((By.XPATH,
+                                                           '//*[@id="ember41"]/div[2]/nav')))
     contents = confirmed_result.get_attribute("textContent")
 
     contents = contents.split('\n')
@@ -57,7 +58,7 @@ def load():
             t["number"] = confirmedNumber
             t["deaths"] = deathn
             t["cured"] = curen
-            time.sleep(5)
+            time.sleep(2)
             totalNumber = totalNumber + confirmedNumber
             totalDeaths = totalDeaths + deathn
             totalCured = totalCured + curen
@@ -70,17 +71,18 @@ def load():
     cases.insert(0, t)
     driver.quit()
     os.system('pkill "chrome"')
+    print("DONE!")
     return cases
 
 
 def deaths(place):
     deathNumber = 0
     driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=chrome_options)
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, 100)
     driver.get("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6")
-    deaths_result = wait.until(presence_of_element_located((By.CSS_SELECTOR,
-                                                           '#ember84')))
-    time.sleep(5)
+    deaths_result = wait.until(presence_of_element_located((By.XPATH,
+                                                           '//*[@id="ember91"]/div/nav')))
+    time.sleep(2)
     contents = deaths_result.get_attribute("textContent")
 
     contents = contents.split('\n')
@@ -108,13 +110,13 @@ def deaths(place):
     return deathNumber
 
 def cured(place):
-    cureNumber = 0
+    cureNumber = "No Data"
     driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver", options=chrome_options)
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, 100)
     driver.get("https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6")
-    cured_result = wait.until(presence_of_element_located((By.CSS_SELECTOR,
-                                                           '#ember98')))
-    time.sleep(5)
+    cured_result = wait.until(presence_of_element_located((By.XPATH,
+                                                           '//*[@id="ember105"]/div/nav')))
+    time.sleep(2)
     contents = cured_result.get_attribute("textContent")
     
     contents = contents.split('\n')
@@ -142,6 +144,7 @@ def cured(place):
     for n in range(0, len(contents)):
         print(place + " in " + str(n) + " " + str(contents[n].strip().replace(u'\xa0', u' ')) + " " + str(place in contents[n].strip().replace(u'\xa0', u' ')))
         if place in contents[n].strip().replace(u'\xa0', u' '):
+            cureNumber = 0
             cureNumber = int(contents[n-1].strip().replace(u'\xa0', u' ')[:-10])
     os.system('pkill "chrome"')
     return cureNumber

@@ -3,7 +3,7 @@ import sys
 from flask import request, jsonify
 import coronaAccess
 import newsAccess
-
+import json
 
 application = Flask(__name__)
 application.config["DEBUG"] = True
@@ -15,7 +15,13 @@ def hello():
 
 @application.route('/', methods=['GET'])
 def getStats():
-    return jsonify(coronaAccess.load())
+    with open('data.json') as json_file:
+        data = json.load(json_file)
+        #if data == "":
+        #    with open('backup.json') as backup:
+       #         data = json.load(backup)
+        return jsonify(data)
+
 
 @application.route('/news', methods=['GET'])
 def getNews():
